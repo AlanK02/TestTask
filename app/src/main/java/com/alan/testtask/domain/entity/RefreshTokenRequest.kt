@@ -1,5 +1,7 @@
 package com.alan.testtask.domain.entity
 
+import com.google.gson.annotations.SerializedName
+
 data class RefreshTokenRequest(
-    val refreshToken: String
+    @SerializedName("refresh_token") val refreshToken: String
 )
