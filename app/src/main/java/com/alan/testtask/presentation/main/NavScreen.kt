@@ -24,6 +24,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -43,9 +44,9 @@ import com.alan.testtask.presentation.profile.ProfileViewModel
 @Composable
 fun NavScreen(profileViewModel: ProfileViewModel, phoneNumber: String) {
     val navigationState = rememberNavigationState()
-
+    val context = LocalContext.current
     LaunchedEffect(Unit) {
-        profileViewModel.loadProfile(phoneNumber)
+        profileViewModel.loadProfile(phoneNumber, context)
     }
 
     val profileState by profileViewModel.profileState.collectAsState()
@@ -136,6 +137,7 @@ fun NavScreen(profileViewModel: ProfileViewModel, phoneNumber: String) {
                     is ProfileState.Success -> {
                         ProfileScreen(
                             profileData = (profileState as ProfileState.Success).profileData,
+                            zodiacSign = (profileState as ProfileState.Success).zodiacSign,
                             onEditProfileClick = {
                                 navigationState.navigateTo(Screen.EditProfile.route)
                             }
@@ -159,8 +161,8 @@ fun NavScreen(profileViewModel: ProfileViewModel, phoneNumber: String) {
                 EditProfileScreen(
                     profileViewModel = profileViewModel,
                     onSaveClick = { updatedProfileData ->
-                        profileViewModel.updateProfile(updatedProfileData)
-                        profileViewModel.loadProfile(phoneNumber)
+                        profileViewModel.updateProfile(updatedProfileData, context)
+                        profileViewModel.loadProfile(phoneNumber, context)
                         navigationState.navHostController.popBackStack()
                     },
                     onBackClick = {

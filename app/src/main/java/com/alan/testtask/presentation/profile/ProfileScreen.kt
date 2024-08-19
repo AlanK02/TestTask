@@ -1,6 +1,5 @@
 package com.alan.testtask.presentation.profile
 
-import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
@@ -29,15 +28,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.alan.testtask.R
 import com.alan.testtask.domain.entity.ProfileData
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import java.time.format.DateTimeParseException
 
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -45,6 +40,7 @@ import java.time.format.DateTimeParseException
 @Composable
 fun ProfileScreen(
     profileData: ProfileData,
+    zodiacSign: String,
     onEditProfileClick: () -> Unit
 ) {
     Scaffold(
@@ -131,52 +127,11 @@ fun ProfileScreen(
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "${stringResource(R.string.zodiac)}: ${
-                        profileData.birthday?.let {
-                            calculateZodiac(
-                                it,
-                                context = LocalContext.current
-                            )
-                        }
-                    }"
+                    text = "${stringResource(R.string.zodiac)}: $zodiacSign"
                 )
             }
             Spacer(modifier = Modifier.height(8.dp))
             Text(text = "${stringResource(R.string.about_me)}: ${profileData.status}")
         }
-    }
-}
-
-
-@RequiresApi(Build.VERSION_CODES.O)
-fun calculateZodiac(birthday: String?, context: Context): String {
-    if (birthday.isNullOrEmpty()) {
-        return context.getString(R.string.unknown)
-    }
-
-    return try {
-        val formatter = DateTimeFormatter.ofPattern(context.getString(R.string.output_date_format))
-        val date = LocalDate.parse(birthday, formatter)
-
-        val day = date.dayOfMonth
-        val month = date.monthValue
-
-        when (month) {
-            1 -> if (day < 20) context.getString(R.string.capricom) else context.getString(R.string.aquarius)
-            2 -> if (day < 19) context.getString(R.string.aquarius) else context.getString(R.string.pisces)
-            3 -> if (day < 21) context.getString(R.string.pisces) else context.getString(R.string.aries)
-            4 -> if (day < 20) context.getString(R.string.aries) else context.getString(R.string.taurus)
-            5 -> if (day < 21) context.getString(R.string.taurus) else context.getString(R.string.gemini)
-            6 -> if (day < 21) context.getString(R.string.gemini) else context.getString(R.string.cancer)
-            7 -> if (day < 23) context.getString(R.string.cancer) else context.getString(R.string.leo)
-            8 -> if (day < 23) context.getString(R.string.leo) else context.getString(R.string.virgo)
-            9 -> if (day < 23) context.getString(R.string.virgo) else context.getString(R.string.libra)
-            10 -> if (day < 23) context.getString(R.string.libra) else context.getString(R.string.scorpio)
-            11 -> if (day < 22) context.getString(R.string.scorpio) else context.getString(R.string.saggitarius)
-            12 -> if (day < 22) context.getString(R.string.saggitarius) else context.getString(R.string.capricom)
-            else -> context.getString(R.string.unknown)
-        }
-    } catch (e: DateTimeParseException) {
-        context.getString(R.string.unknown)
     }
 }

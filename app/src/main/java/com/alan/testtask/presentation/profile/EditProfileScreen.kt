@@ -1,6 +1,5 @@
 package com.alan.testtask.presentation.profile
 
-import android.content.Context
 import android.net.Uri
 import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -49,9 +48,6 @@ import com.alan.testtask.data.util.getFileName
 import com.alan.testtask.data.util.uriToBase64
 import com.alan.testtask.domain.entity.AvatarData
 import com.alan.testtask.domain.entity.ProfileData
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import java.time.format.DateTimeParseException
 
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -198,7 +194,8 @@ fun EditProfileScreen(
 
                     Button(
                         onClick = {
-                            val formattedBirthday = convertDateToServerFormat(birthday, context)
+                            val formattedBirthday =
+                                profileViewModel.convertDateToServerFormat(birthday, context)
 
                             val updatedProfileData = profileData.copy(
                                 name = name,
@@ -228,20 +225,3 @@ fun EditProfileScreen(
         }
     }
 }
-
-
-@RequiresApi(Build.VERSION_CODES.O)
-fun convertDateToServerFormat(date: String, context: Context): String {
-    return try {
-        val inputFormat = DateTimeFormatter.ofPattern(context.getString(R.string.input_date_format))
-        val outputFormat = DateTimeFormatter.ofPattern(context.getString(R.string.output_date_format))
-
-        if (date.matches(Regex("\\d{4}-\\d{2}-\\d{2}"))) {
-            return date
-        }
-        LocalDate.parse(date, inputFormat).format(outputFormat)
-    } catch (e: DateTimeParseException) {
-        ""
-    }
-}
-

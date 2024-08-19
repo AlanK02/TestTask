@@ -1,5 +1,7 @@
 package com.alan.testtask.domain.entity
 
+import com.google.gson.annotations.SerializedName
+
 data class PhoneRequest(
-    val phone: String
+    @SerializedName("phone") val phone: String
 )

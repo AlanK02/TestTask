@@ -8,22 +8,21 @@ data class ProfileResponseDto(
 )
 
 data class ProfileDataDto(
-    val name: String?,
-    val username: String?,
-    val birthday: String?,
-    val city: String?,
-    val vk: String?,
-    val instagram: String?,
-    val status: String?,
-    val avatar: String?,
-    val id: Int?,
-    val last: String?,
-    val online: Boolean?,
-    val created: String?,
-    val phone: String?,
-    @SerializedName("completed_task")
-    val completedTask: Int?,
-    val avatars: AvatarsDto?
+    @SerializedName("name") val name: String?,
+    @SerializedName("username") val username: String?,
+    @SerializedName("birthday") val birthday: String?,
+    @SerializedName("city") val city: String?,
+    @SerializedName("vk") val vk: String?,
+    @SerializedName("instagram") val instagram: String?,
+    @SerializedName("status") val status: String?,
+    @SerializedName("avatar") val avatar: String?,
+    @SerializedName("id") val id: Int?,
+    @SerializedName("last") val last: String?,
+    @SerializedName("online") val online: Boolean?,
+    @SerializedName("created") val created: String?,
+    @SerializedName("phone") val phone: String?,
+    @SerializedName("completed_task") val completedTask: Int?,
+    @SerializedName("avatars") val avatars: AvatarsDto?
 )
 
 data class AvatarsDto(

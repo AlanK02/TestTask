@@ -1,7 +1,9 @@
 package com.alan.testtask.domain.entity
 
+import com.google.gson.annotations.SerializedName
+
 data class RegisterRequest(
-    val phone: String,
-    val name: String,
-    val username: String
+    @SerializedName("phone") val phone: String,
+    @SerializedName("name") val name: String,
+    @SerializedName("username") val username: String
 )
